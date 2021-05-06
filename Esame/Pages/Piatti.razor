@@ -1,0 +1,80 @@
+﻿@page "/Piatti"
+@inject Data.BancaDati db
+
+@if (nuovo == null)
+{
+    <button @onclick="(e => Aggiungi())">nuovo</button>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Tipo_Portata</th>
+            <th>Allergeni</th>
+            <th>Stagione</th>
+            <th>Prezzo</th>
+            <th>Modifica</th>
+            <th>Cancellazione</th>
+        </tr>
+        @foreach (Data.Piatto singolo in db.piatti)
+        {
+            <tr>
+                <td>@singolo.id</td>
+                <td>@singolo.tipo_portata</td>
+                <td>@singolo.allergeni</td>
+                <td>@singolo.stagione</td>
+                <td>@singolo.prezzo</td>
+                <td><button @onclick="(e => Modifica(singolo))">modifica</button></td>
+                <td><button @onclick="(e => Cancella(singolo))">cancella</button></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>Inserici i dati e premi ok</p>
+    <input @bind-value="nuovo.tipo_portata" placeholder="TipoPortata" />
+    <br />
+    <input @bind-value="nuovo.allergeni" placeholder="Allergeni" />
+    <br />
+    <input @bind-value="nuovo.stagione" placeholder="Stagione" />
+    <br />
+    <input @bind-value="nuovo.prezzo" placeholder="Prezzo" />
+    <br />
+    <button @onclick="(e => Salva())">OK</button>
+}
+
+@code {
+
+    private Data.Piatto nuovo;
+
+    private void Cancella(Data.Piatto daCancellare)
+    {
+        db.piatti.Remove(daCancellare);
+        db.SaveChanges();
+    }
+
+    private void Aggiungi()
+    {
+        nuovo = new Data.Piatto();
+    }
+
+    private void Modifica(Data.Piatto daModificare)
+    {
+        nuovo = daModificare;
+    }
+
+    private void Salva()
+    {
+        if (nuovo.id == 0)
+        {
+            db.piatti.Add(nuovo);
+        }
+        else
+        {
+            db.piatti.Update(nuovo);
+        }
+
+        db.SaveChanges();
+        nuovo = null;
+    }
+
+}

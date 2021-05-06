@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>4ca07ea3-7276-471d-8336-0740797f57b6</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.5" />
+  </ItemGroup>
+
+</Project>
